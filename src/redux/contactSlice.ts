@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IContact } from "../models/Contact";
+import { HandlerProps, IContact } from "../models/Contact";
 import { v4 as uuidv4 } from "uuid";
 
 const initialState = [] as IContact[];
@@ -9,13 +9,14 @@ const contactSlice = createSlice({
   initialState,
   reducers: {
     addContact: {
-      reducer: (state, action: PayloadAction<IContact>) => {
+      reducer: (state, action: PayloadAction<HandlerProps>) => {
         state.push(action.payload);
       },
-      prepare: (description: string) => ({
+      prepare: (contact: HandlerProps) => ({
         payload: {
           id: uuidv4(),
-          description,
+          name: contact.name,
+          phone: contact.phone,
           completed: false,
         } as IContact,
       }),

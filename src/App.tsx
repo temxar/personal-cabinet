@@ -6,13 +6,13 @@ import { AuthForm } from './features/auth/AuthForm';
 
 function App() {
   return (
-    <div className="App">
+    <div className="app">
       <Router>
         <Routes>
           <Route element= {<AuthForm />} path="/login" />
           <Route element= {<AuthForm />} path="/signup" />
-          <Route path='/' element={<PrivateRoute/>}>
-            <Route path='/' element={<Contacts/>}/>
+          <Route path='/' element={<PrivateRoute />}>
+            <Route path='/' element={<Contacts />}/>
           </Route>
         </Routes>
       </Router>

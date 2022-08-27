@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from "react-redux";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 
 import toast from "react-hot-toast";
@@ -10,51 +10,44 @@ import { clearState, signupUser, loginUser, user } from "../../redux/userSlice";
 import { useFormControls } from "./AuthFormControls";
 import Loading from "../../components/Loading";
 
-import UseStyles from "./AuthFormStyling";
 import useStyles from "./AuthFormStyling";
 
 const inputFieldValues = [
   {
     name: "name",
     label: "Name",
-    id: "name"
+    id: "name",
   },
   {
     name: "email",
     label: "Email",
-    id: "email"
+    id: "email",
   },
   {
     name: "password",
     label: "Password",
     id: "password",
-  }
+  },
 ];
 
 export const AuthForm = () => {
   const classes = useStyles();
-  const {
-    values,
-    handleInputValue,
-    formIsValid,
-    errors
-  } = useFormControls();
+  const { values, handleInputValue, formIsValid, errors } = useFormControls();
 
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
 
-  const {pathname} = useLocation();  
-  const isLogin = pathname === '/login'
+  const { pathname } = useLocation();
+  const isLogin = pathname === "/login";
 
-  const { isFetching, isSuccess, isError, errorMessage } = useSelector(
-      user
-  );
+  const { isFetching, isSuccess, isError, errorMessage } = useSelector(user);
 
   const handleFormSubmit = (e: any) => {
     e.preventDefault();
-    const isValid = Object.values(errors).every((x) => x === "") && formIsValid();
+    const isValid =
+      Object.values(errors).every((x) => x === "") && formIsValid();
 
-    if (isValid) {    
+    if (isValid) {
       isLogin ? dispatch(loginUser(values)) : dispatch(signupUser(values));
     }
   };
@@ -67,25 +60,30 @@ export const AuthForm = () => {
 
   useEffect(() => {
     if (isError) {
-      toast.error(errorMessage);   
+      toast.error(errorMessage);
       dispatch(clearState());
     }
 
     if (isSuccess) {
       dispatch(clearState());
-      navigate('/');
+      navigate("/");
     }
   }, [isError, isSuccess]);
 
   return (
     <div className={classes.root}>
       <Typography style={{ textAlign: "center" }} variant="h4">
-        {isLogin ? 'Login' : 'Signup'}
+        {isLogin ? "Login" : "Signup"}
       </Typography>
-      <form className={classes.content} autoComplete="off" onSubmit={handleFormSubmit}>
+      <form
+        className={classes.content}
+        autoComplete="off"
+        onSubmit={handleFormSubmit}
+      >
         {inputFieldValues.map((inputFieldValue, index) => {
-          return (
-            (isLogin && inputFieldValue.name === 'name') ? '' :        
+          return isLogin && inputFieldValue.name === "name" ? (
+            ""
+          ) : (
             <TextField
               key={index}
               onChange={handleInputValue}
@@ -96,25 +94,31 @@ export const AuthForm = () => {
               autoComplete="none"
               {...(errors[inputFieldValue.name] && {
                 error: true,
-                helperText: errors[inputFieldValue.name]
+                helperText: errors[inputFieldValue.name],
               })}
             />
           );
         })}
-        <Button
-          className={classes.button}
-          variant="contained"
-          type="submit"
-          color="secondary"
-          disabled={!formIsValid()}
-        >
-          {isFetching ? <Loading width="24" height="24"/> : null}
-          Send Message
-        </Button>
+        <div className={classes.buttonContainer}>
+          {isFetching ? <Loading /> : null}
+          <Button
+            className={classes.button}
+            variant="contained"
+            type="submit"
+            color="secondary"
+            disabled={!formIsValid()}
+          >
+            Send Message
+          </Button>
+        </div>
       </form>
 
       <Typography style={{ textAlign: "center" }} variant="h6">
-        Or <Link to={isLogin ? "/signup" : "/login"}> {isLogin ? "Signup" : "Sign in"}</Link>
+        Or{" "}
+        <Link to={isLogin ? "/signup" : "/login"}>
+          {" "}
+          {isLogin ? "Signup" : "Sign in"}
+        </Link>
       </Typography>
     </div>
   );
