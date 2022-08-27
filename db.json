@@ -1,0 +1,16 @@
+{
+  "users": [
+    {
+      "email": "qaz19361@mail.ru",
+      "password": "$2a$10$VE8EIoosPOAnfa.y29XJiuQuMZ7eYuD2at2CXDUakNmgJbi1a7GzS",
+      "name": "Махашев Рахмет",
+      "id": 1
+    },
+    {
+      "email": "sssss@sss.ss",
+      "password": "$2a$10$o/8D1VmGAFtKJmC4nLnQA.1gTdF1glNDVdQxGq9KpIFEpSEIqhTNa",
+      "name": "outlook",
+      "id": 2
+    }
+  ]
+}
